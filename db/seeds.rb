@@ -5,3 +5,15 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+tables = ActiveRecord::Base.connection.tables - ['schema_migrations']
+
+tables.each do |table|
+  ActiveRecord::Base.connection.execute("TRUNCATE #{table} RESTART IDENTITY CASCADE")
+end
+
+airports = Airport.create([
+  { code: 'SFO' },
+  { code: 'NYC' },
+  { code: 'BOS' },
+  { code: 'LAX' }
+])
